@@ -50,3 +50,18 @@ Para a verificação estática do código, recomenda-se a utilização do ESLint
 
 ## Autoria
 Carlos Adrian
+
+
+## Detalhes técnicos
+
+1. Gestão de Estado e Persistência:
+O software não utiliza um banco de dados backend ou criação de contas, atendendo ao requisito de simplicidade e anonimato. Toda a persistência de dados (tarefas, tema, configurações de notificação e timestamp do último reset) é gerenciada pela API Web Storage (LocalStorage) nativa do navegador. Isso garante que os dados permaneçam salvos entre múltiplos acessos na mesma máquina.
+
+2. Sintetização de Áudio (Web Audio API):
+Para garantir que a aplicação seja leve (evitando o download de arquivos pesados de áudio) e completamente autocontida, os efeitos sonoros de gamificação são gerados matematicamente através da Web Audio API. O código cria osciladores com ondas do tipo "square" e "sawtooth" em frequências específicas para simular sons comuns de jogos.
+
+3. Lógica de Reset às 3:00 AM:
+A aplicação salva um timestamp (milissegundos) da última vez que as tarefas foram resetadas. Ao abrir o aplicativo, o JavaScript calcula se o horário atual ultrapassou as 03:00 AM do dia vigente (ou do dia seguinte, dependendo do último acesso). Se sim, ele varre a array de tarefas, altera o status `completed` para `false` e atualiza a interface visualmente.
+
+4. Notificações do Sistema:
+Utilizamos a Notification API nativa do navegador para enviar os lembretes de hidratação. O usuário cadastra três horários (em campos HTML do tipo `time`). Um `setInterval` roda a cada 60 segundos comparando a hora do sistema com os horários definidos pelo usuário.
