@@ -4,48 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vitality | Autocuidado Gamificado</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-
-    <header>
-        <h1>Vitality</h1>
-        <button type="button">Alternar Tema</button>
-        
-        <div>
-            <progress value="0" max="100"></progress>
-            <p>0% Concluído</p>
-        </div>
-    </header>
-
-    <main>
-        <ul>
-            <li>Beber água (exemplo)</li>
-        </ul>
-
-        <form>
-            <input type="text" placeholder="Adicionar novo hábito..." required>
-            <button type="submit">Adicionar</button>
-        </form>
-
-        <hr>
-
-        <section>
-            <h2>Lembretes de Hidratação</h2>
-            <div>
-                <input type="time">
-                <input type="time">
-                <input type="time">
-                <button type="button">Ativar Notificações</button>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1 class="retro-text">Vitality</h1>
+                <button id="themeToggle" class="icon-btn" title="Alternar Tema">
+                    <i class="ph ph-moon"></i>
+                </button>
             </div>
-        </section>
-    </main>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">0% Concluído</p>
+        </header>
 
-    <hr>
+        <main>
+            <ul id="taskList" class="task-list"></ul>
 
-    <div>
-        <h2>LEVEL UP!</h2>
+            <form id="taskForm" class="task-form">
+                <input type="text" id="taskInput" placeholder="Adicionar novo hábito..." required>
+                <button type="submit" class="icon-btn" title="Adicionar">
+                    <i class="ph ph-plus"></i>
+                </button>
+            </form>
+
+            <section class="settings">
+                <h2><i class="ph ph-bell"></i> Lembretes de Hidratação</h2>
+                <div class="notification-controls">
+                    <input type="time" id="time1" class="time-input">
+                    <input type="time" id="time2" class="time-input">
+                    <input type="time" id="time3" class="time-input">
+                    <button id="toggleNotifications" class="btn">Ativar Notificações</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="celebrationOverlay" class="hidden">
+        <h2 class="retro-text pulse-anim">LEVEL UP!</h2>
         <p>Você completou todos os seus cuidados diários!</p>
     </div>
 
+    <script src="script.js"></script>
 </body>
 </html>
