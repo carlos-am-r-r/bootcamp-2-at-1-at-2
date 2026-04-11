@@ -4,20 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vitality | Autocuidado Gamificado</title>
+    <!-- Integrção -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
+
+    <!-- Container do conteúdo do site-->
     <div class="container">
         <header>
+            
+            <!-- Título no container -->
             <div class="header-top">
                 <h1 class="retro-text">Vitality</h1>
+
+                <!-- Botão para mudar o tema -->
                 <button id="themeToggle" class="icon-btn" title="Alternar Tema">
                     <i class="ph ph-moon"></i>
                 </button>
             </div>
             
+            <!-- Barra de progresso -->
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
@@ -25,6 +33,7 @@
         </header>
 
         <main>
+            <!-- Checklist -->
             <ul id="taskList" class="task-list"></ul>
 
             <form id="taskForm" class="task-form">
@@ -34,6 +43,7 @@
                 </button>
             </form>
 
+            <!-- Seção para notificações -->
             <section class="settings">
                 <h2><i class="ph ph-bell"></i> Lembretes de Hidratação</h2>
                 <div class="notification-controls">
@@ -46,11 +56,13 @@
         </main>
     </div>
 
+    <!-- POP-UP de conclusão -->
     <div id="celebrationOverlay" class="hidden">
         <h2 class="retro-text pulse-anim">LEVEL UP!</h2>
         <p>Você completou todos os seus cuidados diários!</p>
     </div>
 
+    <!-- Integrção -->
     <script src="script.js"></script>
 </body>
 </html>
