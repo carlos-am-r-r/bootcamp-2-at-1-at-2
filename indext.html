@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aba teste 2</title>
     <!-- Integrção -->
-    <link rel="stylesheet" href="bootcamp-2-at-1-at-2-main/style.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
@@ -88,34 +88,6 @@
         <div class="cidade">
             <h3>Não se esqueça de se hidratar adequadamente ao clima de sua região!</h3>
         </div>
-
-        <script>
-            // Função reutilizável para buscar o clima das cidades
-            function buscarClima(lat, lon, idClima, idVento) {
-                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        const temperatura = data.current_weather.temperature;
-                        const vento = data.current_weather.windspeed;
-                
-                        // Atualizações específicas conforme as cidades
-                        document.getElementById(idClima).innerText = `${temperatura}°C`;
-                        document.getElementById(idVento).innerText = vento;
-                    })
-                    .catch(error => {
-                        console.error("Erro ao buscar o clima:", error);
-                        document.getElementById(idClima).innerText = "Erro ao carregar";
-                    });
-            }
-
-            // Aplicação da função de acordo com as cidades
-            buscarClima(-23.55, -46.63, "clima-sp", "vento-sp");   // São Paulo
-            buscarClima(-15.79, -47.88, "clima-bsb", "vento-bsb"); // Brasília
-            buscarClima(-22.90, -43.17, "clima-rj", "vento-rj");   // Rio de Janeiro
-        </script>
-
     </div>
 
 
@@ -126,6 +98,6 @@
     </div>
 
     <!-- Integrção -->
-    <script src="bootcamp-2-at-1-at-2-main/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
