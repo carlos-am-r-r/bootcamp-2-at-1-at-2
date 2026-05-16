@@ -250,3 +250,28 @@ window.addEventListener('DOMContentLoaded', () => {
     renderTasks();
     setupNotifications();
 });
+
+// Função reutilizável para buscar o clima das cidades
+function buscarClima(lat, lon, idClima, idVento) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const temperatura = data.current_weather.temperature;
+            const vento = data.current_weather.windspeed;
+    
+            // Atualizações específicas conforme as cidades
+            document.getElementById(idClima).innerText = `${temperatura}°C`;
+            document.getElementById(idVento).innerText = vento;
+        })
+        .catch(error => {
+            console.error("Erro ao buscar o clima:", error);
+            document.getElementById(idClima).innerText = "Erro ao carregar";
+        });
+}
+
+// Aplicação da função de acordo com as cidades
+buscarClima(-23.55, -46.63, "clima-sp", "vento-sp");   // São Paulo
+buscarClima(-15.79, -47.88, "clima-bsb", "vento-bsb"); // Brasília
+buscarClima(-22.90, -43.17, "clima-rj", "vento-rj");   // Rio de Janeiro
