@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vitality | Autocuidado Gamificado</title>
+    <title>Aba teste 2</title>
     <!-- Integrção -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootcamp-2-at-1-at-2-main/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
@@ -53,8 +53,71 @@
                     <button id="toggleNotifications" class="btn">Ativar Notificações</button>
                 </div>
             </section>
+            <br><br>
         </main>
+
     </div>
+
+    <!-- Seção para o clima, em paralelo à sessão de checkbox-->
+    <div class="div-clima">
+
+        <div class="cidade">
+            <div class="card">
+                <h1>São Paulo</h1>
+                <p>Temperatura: <span id="clima-sp" class="info">Carregando...</span></p>
+                <p>Vento: <span id="vento-sp">--</span> km/h</p>
+            </div>
+        </div>
+
+        <div class="cidade">
+            <div class="card">
+                <h1>Brasília</h1>
+                <p>Temperatura: <span id="clima-bsb" class="info">Carregando...</span></p>
+                <p>Vento: <span id="vento-bsb">--</span> km/h</p>
+            </div>
+        </div>
+
+        <div class="cidade">
+            <div class="card">
+                <h1>Rio de Janeiro</h1>
+                <p>Temperatura: <span id="clima-rj" class="info">Carregando...</span></p>
+                <p>Vento: <span id="vento-rj">--</span> km/h</p>
+            </div>
+        </div>
+
+        <div class="cidade">
+            <h3>Não se esqueça de se hidratar adequadamente ao clima de sua região!</h3>
+        </div>
+
+        <script>
+            // Função reutilizável para buscar o clima das cidades
+            function buscarClima(lat, lon, idClima, idVento) {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        const temperatura = data.current_weather.temperature;
+                        const vento = data.current_weather.windspeed;
+                
+                        // Atualizações específicas conforme as cidades
+                        document.getElementById(idClima).innerText = `${temperatura}°C`;
+                        document.getElementById(idVento).innerText = vento;
+                    })
+                    .catch(error => {
+                        console.error("Erro ao buscar o clima:", error);
+                        document.getElementById(idClima).innerText = "Erro ao carregar";
+                    });
+            }
+
+            // Aplicação da função de acordo com as cidades
+            buscarClima(-23.55, -46.63, "clima-sp", "vento-sp");   // São Paulo
+            buscarClima(-15.79, -47.88, "clima-bsb", "vento-bsb"); // Brasília
+            buscarClima(-22.90, -43.17, "clima-rj", "vento-rj");   // Rio de Janeiro
+        </script>
+
+    </div>
+
 
     <!-- POP-UP de conclusão -->
     <div id="celebrationOverlay" class="hidden">
@@ -63,6 +126,6 @@
     </div>
 
     <!-- Integrção -->
-    <script src="script.js"></script>
+    <script src="bootcamp-2-at-1-at-2-main/script.js"></script>
 </body>
 </html>
