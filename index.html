@@ -10,7 +10,6 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-
     <!-- Container do conteúdo do site-->
     <div class="container">
         <header>
@@ -42,20 +41,46 @@
                     <i class="ph ph-plus"></i>
                 </button>
             </form>
-
-            <!-- Seção para notificações -->
-            <section class="settings">
-                <h2><i class="ph ph-bell"></i> Lembretes de Hidratação</h2>
-                <div class="notification-controls">
-                    <input type="time" id="time1" class="time-input">
-                    <input type="time" id="time2" class="time-input">
-                    <input type="time" id="time3" class="time-input">
-                    <button id="toggleNotifications" class="btn">Ativar Notificações</button>
-                </div>
-            </section>
-            <br><br>
         </main>
 
+        <div class="calculator-card">
+            <h2>Calculadora HidroFofa 💧</h2>
+        
+            <div class="section">
+                <span class="section-title">Quantos aninhos você tem?</span>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="age-group" value="0.04" checked>
+                        <span>Até 17 anos</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="age-group" value="0.035">
+                        <span>18 a 55 anos</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="age-group" value="0.03">
+                        <span>55 a 65 anos</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="age-group" value="0.025">
+                        <span>66 anos em diante</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <span class="section-title">Qual é o seu peso?</span>
+                <div class="slider-container">
+                    <input type="range" id="weight-slider" min="0" max="200" value="60">
+                    <div class="weight-display"><span id="weight-text">60</span> kg</div>
+                </div>
+            </div>
+
+            <div class="result-square">
+                <div class="result-val" id="water-result">2.40</div>
+                <div class="result-unit">Litros / Dia</div>
+            </div>
+        </div>
     </div>
 
     <!-- Seção para o clima, em paralelo à sessão de checkbox-->
