@@ -4,8 +4,6 @@ let tasks = JSON.parse(localStorage.getItem('vitality_tasks')) || [
     { id: 2, text: "Alongar o corpo por 5 minutos", completed: false },
     { id: 3, text: "Fazer uma refeição saudável", completed: false }
 ];
-let notificationsEnabled = JSON.parse(localStorage.getItem('vitality_notif_enabled')) || false;
-let notificationTimes = JSON.parse(localStorage.getItem('vitality_notif_times')) || ["09:00", "13:00", "18:00"];
 
 // --- SÍNTESE DE ÁUDIO (Estilo Retrô) ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -168,67 +166,6 @@ function editTask(id) {
     }
 }
 
-// --- NOTIFICAÇÕES DE HIDRATAÇÃO ---
-function setupNotifications() {
-    const btn = document.getElementById('toggleNotifications');
-    const inputs = [document.getElementById('time1'), document.getElementById('time2'), document.getElementById('time3')];
-
-    // Carrega os valores
-    inputs.forEach((input, index) => input.value = notificationTimes[index]);
-    updateNotificationUI(btn);
-
-    // Salva mudanças de horário
-    inputs.forEach((input, index) => {
-        input.addEventListener('change', (e) => {
-            notificationTimes[index] = e.target.value;
-            localStorage.setItem('vitality_notif_times', JSON.stringify(notificationTimes));
-        });
-    });
-
-    btn.addEventListener('click', async () => {
-        if (!notificationsEnabled) {
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-                notificationsEnabled = true;
-            } else {
-                alert("Permissão para notificações negada pelo navegador.");
-                return;
-            }
-        } else {
-            notificationsEnabled = false;
-        }
-        localStorage.setItem('vitality_notif_enabled', JSON.stringify(notificationsEnabled));
-        updateNotificationUI(btn);
-    });
-
-    // Checa notificações a cada 1 minuto
-    setInterval(checkNotificationTimes, 60000);
-}
-
-function updateNotificationUI(btn) {
-    if (notificationsEnabled) {
-        btn.innerText = "Notificações Ativadas";
-        btn.style.backgroundColor = "var(--success)";
-    } else {
-        btn.innerText = "Ativar Notificações";
-        btn.style.backgroundColor = "var(--primary)";
-    }
-}
-
-function checkNotificationTimes() {
-    if (!notificationsEnabled || Notification.permission !== "granted") return;
-    
-    const now = new Date();
-    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    
-    if (notificationTimes.includes(currentTime)) {
-        new Notification("Vitality: Hora de se hidratar!", {
-            body: "Beba um bom copo d'água agora para manter seu cérebro focado e saudável! 💧",
-            icon: "https://unpkg.com/@phosphor-icons/core@2.0.0/assets/regular/drop-regular.svg"
-        });
-    }
-}
-
 // --- TEMA CLARO/ESCURO ---
 function setupTheme() {
     const toggleBtn = document.getElementById('themeToggle');
@@ -275,3 +212,37 @@ function buscarClima(lat, lon, idClima, idVento) {
 buscarClima(-23.55, -46.63, "clima-sp", "vento-sp");   // São Paulo
 buscarClima(-15.79, -47.88, "clima-bsb", "vento-bsb"); // Brasília
 buscarClima(-22.90, -43.17, "clima-rj", "vento-rj");   // Rio de Janeiro
+
+// --- CALCULADORA HIDROFOFA ---
+const weightSlider = document.getElementById('weight-slider');
+const weightText = document.getElementById('weight-text');
+const waterResult = document.getElementById('water-result');
+const ageRadios = document.querySelectorAll('input[name="age-group"]');
+
+function calcularAgua() {
+    const peso = parseFloat(weightSlider.value);
+    let ratio = 0.04; // Valor padrão inicial
+
+    // Descobre qual rádio está selecionado
+    ageRadios.forEach(radio => {
+        if (radio.checked) {
+            ratio = parseFloat(radio.value);
+        }
+    });
+
+    // Executa a fórmula fofa ajustada para litros
+    const resultado = peso * ratio;
+
+    // Atualiza os textos na tela
+    weightText.textContent = peso;
+    waterResult.textContent = resultado.toFixed(2);
+}
+
+// Ouvintes de eventos para recalcular em tempo real ao mexer nos controles
+weightSlider.addEventListener('input', calcularAgua);
+ageRadios.forEach(radio => {
+    radio.addEventListener('change', calcularAgua);
+});
+
+// Executa uma vez ao carregar para não começar zerado
+calcularAgua();

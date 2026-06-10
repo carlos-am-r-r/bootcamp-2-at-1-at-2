@@ -30,7 +30,8 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
-    font-family: var(--main-font);
+    /*font-family: var(--main-font);*/
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -165,12 +166,6 @@ input[type="text"] {
     gap: 0.5rem;
 }
 
-.notification-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
 .time-input {
     padding: 0.5rem;
     border: var(--border-style);
@@ -249,4 +244,124 @@ input[type="text"] {
 
 .cidade{
     padding: 10px;
+}
+
+/* Configurações Gerais (Cinza Claro de Fundo) */
+
+
+/* O Card da Calculadora (Roxo Principal nos Detalhes) */
+.calculator-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+    width: 80%px;
+    border: 3px solid #e9d5ff;
+    text-align: center;
+}
+
+h2 {
+    color: #7c3aed; /* Roxo principal */
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.6rem;
+}
+
+.section {
+    margin-bottom: 22px;
+    text-align: left;
+}
+
+.section-title {
+    font-size: 0.95rem;
+    color: #4b5563;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Customização dos Radios */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.radio-option:hover {
+    border-color: #ddd6fe;
+    background: #f5f3ff;
+}
+
+.radio-option input {
+    margin-right: 12px;
+    accent-color: #7c3aed; /* Roxo no input */
+    width: 16px;
+    height: 16px;
+}
+
+/* Slider de Peso */
+.slider-container {
+    background: #f9fafb;
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.slider-container input {
+    width: 100%;
+    accent-color: #7c3aed;
+    cursor: pointer;
+}
+
+.weight-display {
+    font-size: 1.2rem;
+    color: #7c3aed;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* Quadrado do Resultado */
+.result-square {
+    background: #7c3aed; /* Roxo Principal */
+    color: #ffffff;
+    width: 150px;
+    height: 150px;
+    margin: 25px auto 0;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.result-square:hover {
+    transform: scale(1.05);
+}
+
+.result-val {
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.result-unit {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+    opacity: 0.9;
 }
