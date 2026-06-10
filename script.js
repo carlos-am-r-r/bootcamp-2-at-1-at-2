@@ -1,9 +1,5 @@
-// --- ESTADO E CONFIGURAÇÕES ---
-let tasks = JSON.parse(localStorage.getItem('vitality_tasks')) || [
-    { id: 1, text: "Beber 1 copo de água ao acordar", completed: false },
-    { id: 2, text: "Alongar o corpo por 5 minutos", completed: false },
-    { id: 3, text: "Fazer uma refeição saudável", completed: false }
-];
+
+let tasks = [];
 
 // --- SÍNTESE DE ÁUDIO (Estilo Retrô) ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -37,35 +33,34 @@ function playVictorySound() {
 }
 
 // --- LÓGICA DE RESET ÀS 3:00 AM ---
-function checkAndResetDaily() {
+async function checkAndResetDaily() {
     const lastReset = localStorage.getItem('vitality_last_reset');
     const now = new Date();
-    // Cria um objeto Date para as 03:00 da manhã de hoje
     const today3AM = new Date();
     today3AM.setHours(3, 0, 0, 0);
 
-    // Se agora passou das 3AM e o último reset foi ANTES das 3AM de hoje
+    let deveResetar = false;
     if (now >= today3AM && (!lastReset || new Date(Number(lastReset)) < today3AM)) {
-        tasks.forEach(task => task.completed = false);
-        saveTasks();
-        localStorage.setItem('vitality_last_reset', Date.now());
+        deveResetar = true;
     } else if (now < today3AM && lastReset) {
-        // Trata o caso onde ainda não são 3 da manhã, o reset do dia anterior é a referência
         const yesterday3AM = new Date(today3AM);
         yesterday3AM.setDate(yesterday3AM.getDate() - 1);
         if (new Date(Number(lastReset)) < yesterday3AM) {
-            tasks.forEach(task => task.completed = false);
-            saveTasks();
-            localStorage.setItem('vitality_last_reset', Date.now());
+            deveResetar = true;
         }
+    }
+
+    if (deveResetar) {
+        for (const task of tasks) {
+            task.completed = false;
+            await atualizarTarefa(task.id, false);
+        }
+        localStorage.setItem('vitality_last_reset', Date.now());
+        renderTasks();
     }
 }
 
 // --- RENDERIZAÇÃO E DOM ---
-function saveTasks() {
-    localStorage.setItem('vitality_tasks', JSON.stringify(tasks));
-}
-
 function updateProgress() {
     if (tasks.length === 0) return;
     const completedTasks = tasks.filter(t => t.completed).length;
@@ -123,44 +118,51 @@ function renderTasks() {
 }
 
 // --- AÇÕES CRUD ---
-function addTask(e) {
+async function addTask(e) {
     e.preventDefault();
     const input = document.getElementById('taskInput');
     const text = input.value.trim();
     if (text) {
-        tasks.push({ id: Date.now(), text, completed: false });
-        input.value = '';
-        saveTasks();
-        renderTasks();
+        const novaTarefa = {
+            descricao: text,
+            hora: null,
+            concluida: false
+        };
+        const tarefaSalva = await salvarTarefa(novaTarefa);
+        if (tarefaSalva) {
+            tasks.push(tarefaSalva);
+            input.value = '';
+            renderTasks();
+        }
     }
 }
 
-function toggleTask(id, element) {
+async function toggleTask(id, element) {
     const task = tasks.find(t => t.id === id);
     if (task) {
         task.completed = !task.completed;
         if (task.completed) {
             playTaskSound();
-            element.classList.add('flash'); // Feedback visual
+            element.classList.add('flash');
         }
-        saveTasks();
-        renderTasks();
+        await atualizarTarefa(id, task.completed);
+        renderTasks(); // re-renderiza para atualizar a UI
     }
 }
 
-function deleteTask(id) {
+async function deleteTask(id) {
     tasks = tasks.filter(t => t.id !== id);
-    saveTasks();
+    await deletarTarefa(id);
     renderTasks();
 }
 
-function editTask(id) {
+async function editTask(id) {
     const task = tasks.find(t => t.id === id);
     if (task) {
         const newText = prompt("Editar hábito:", task.text);
         if (newText !== null && newText.trim() !== "") {
             task.text = newText.trim();
-            saveTasks();
+            await editarTarefaTexto(id, task.text);
             renderTasks();
         }
     }
@@ -181,11 +183,12 @@ function setupTheme() {
 
 // --- INICIALIZAÇÃO ---
 document.getElementById('taskForm').addEventListener('submit', addTask);
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
+    tasks = await carregarTarefas(); 
+    renderTasks();
+    
     checkAndResetDaily();
     setupTheme();
-    renderTasks();
-    setupNotifications();
 });
 
 // Função reutilizável para buscar o clima das cidades

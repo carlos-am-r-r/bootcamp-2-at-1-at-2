@@ -115,14 +115,18 @@
         </div>
     </div>
 
-
     <!-- POP-UP de conclusão -->
     <div id="celebrationOverlay" class="hidden">
         <h2 class="retro-text pulse-anim">LEVEL UP!</h2>
         <p>Você completou todos os seus cuidados diários!</p>
     </div>
-
+    
     <!-- Integrção -->
+    <!-- 1. Carrega a biblioteca do Supabase da CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 2. Carrega a sua conexão e funções do banco de dados -->
+    <script src="database.js"></script>
+    <!-- 3. Carrega a lógica do seu site -->
     <script src="script.js"></script>
 </body>
 </html>
